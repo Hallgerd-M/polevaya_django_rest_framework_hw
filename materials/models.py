@@ -64,3 +64,6 @@ class Lesson(models.Model):
 
     def __str__(self):
         return self.name
+
+
+# Log.objects.filter(mailing__owner=self.request.user)
