@@ -2,18 +2,14 @@ from django.urls import path
 from rest_framework.routers import SimpleRouter
 
 from materials.apps import MaterialsConfig
-from materials.views import (
-    LessonCreateAPIView,
-    LessonDestroyAPIView,
-    LessonListAPIView,
-    LessonRetrieveAPIView,
-    LessonUpdateAPIView,
-)
+from materials.views import (LessonCreateAPIView, LessonDestroyAPIView,
+                             LessonListAPIView, LessonRetrieveAPIView,
+                             LessonUpdateAPIView)
 
 from .views import CourseViewSet
 
 router = SimpleRouter()
-router.register("", CourseViewSet)
+router.register(r"courses", CourseViewSet, basename="courses")
 
 app_name = MaterialsConfig.name
 
@@ -25,6 +21,7 @@ urlpatterns = [
         "lesson/<int:pk>/delete", LessonDestroyAPIView.as_view(), name="lesson_delete"
     ),
     path("lesson/<int:pk>/update", LessonUpdateAPIView.as_view(), name="lesson_update"),
-]
+] + router.urls
 
-urlpatterns += router.urls
+
+# http://127.0.0.1:8000/courses/ through body/raw/json post
