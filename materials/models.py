@@ -85,3 +85,29 @@ class Lesson(models.Model):
 
 
 # Log.objects.filter(mailing__owner=self.request.user)
+
+
+class Subscription(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name="Пользователь",
+    )
+    course = models.ForeignKey(
+        Course,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name="Название курса",
+        help_text="Введите название курса",
+    )
+    active = models.BooleanField(default=False, verbose_name="Активность")
+
+    class Meta:
+        verbose_name = "Подписка"
+        verbose_name_plural = "Подписки"
+
+    def __str__(self):
+        return f"Подписка на курс {self.course}"

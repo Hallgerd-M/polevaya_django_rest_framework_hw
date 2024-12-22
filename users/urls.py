@@ -1,7 +1,8 @@
 from django.urls import path
 from rest_framework.permissions import AllowAny
 from rest_framework.routers import SimpleRouter
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.views import (TokenObtainPairView,
+                                            TokenRefreshView)
 
 from users.apps import UsersConfig
 
@@ -25,5 +26,5 @@ urlpatterns = [
         TokenRefreshView.as_view(permission_classes=(AllowAny,)),
         name="token_refresh",
     ),
-    path("<int:pk>/", UserRetrieveAPIView.as_view(), name="user_detail")
+    path("<int:pk>/", UserRetrieveAPIView.as_view(), name="user_detail"),
 ] + router.urls
