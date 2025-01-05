@@ -15,6 +15,7 @@ from .models import Course, Lesson, Subscription
 from .paginations import CoursePagination, LessonPagination
 from .serializers import (CourseDetailSerializer, CourseSerializer,
                           LessonSerializer, SubscriptionSerializer)
+from .tasks import send_update_email
 
 
 @method_decorator(
@@ -45,6 +46,11 @@ class CourseViewSet(ModelViewSet):
         elif self.action == "destroy":
             self.permission_classes = (IsOwner | ~IsModerator,)
         return super().get_permissions()
+
+    def perform_update(self, serializer):
+        course = serializer.save()
+        send_update_email.delay(course.id)
+        return course
 
 
 class LessonCreateAPIView(CreateAPIView):
